@@ -2,7 +2,7 @@
 Unittest for basic classes.
 Run only on Python >= 3.2 (because of dependency to mock
 """
-from unittest import mock
+from unittest.mock import patch
 import os
 import glob
 import unittest
@@ -39,14 +39,14 @@ class SwitchTest(unittest.TestCase):
         self.cut.dont_skip_all()
         self.assertFalse(self.cut.is_skip_all())
 
-    @mock.patch('common.subprocess.call')
+    @patch('switch.subprocess.call')
     def test_toggle(self, mock_subprocess):
         self.cut.toggle(1)
         mock_subprocess.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '1'])
         self.cut.toggle(0)
         mock_subprocess.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '0'])
 
-    @mock.patch('common.subprocess.call')
+    @patch('switch.subprocess.call')
     def test_toggle_all(self, mock_subprocess):
         Switch.toggle_all(1)
         self.assertEqual(mock_subprocess.call_count, 3)  # 3 switches in the config
