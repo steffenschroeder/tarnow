@@ -21,9 +21,11 @@ def get_switches():
     switches_from_config = config.switches
     for switch in switches_from_config.keys():
         s = Switch(switch)
+        b = " disabled" if (s.is_skip_next() or s.is_skip_all()) else ""
         switches.append(dict(name=s.name,
                              is_skip=s.is_skip_next(),
-                             is_permanent_skip=s.is_skip_all()))
+                             is_permanent_skip=s.is_skip_all(),
+                             enabled_class=b))
     return switches
 
 
@@ -80,5 +82,5 @@ def toggle_switch(switch, status):
         s.toggle(status)
 
 if __name__ == '__main__':
-    enable_debug = False
+    enable_debug = True
     app.run(host='0.0.0.0', port=8080, debug=enable_debug)

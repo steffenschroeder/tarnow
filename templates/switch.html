@@ -40,9 +40,9 @@
             </div>
             <div class="col-md-11">
 
-                <a href="/on/{{ switch.name }}" class="btn btn-default">On</a>
+                <a href="/on/{{ switch.name }}" class="btn btn-default {{switch.enabled_class}}">On</a>
 
-                <a href="/off/{{ switch.name }}" class="btn btn-default">Off</a>
+                <a href="/off/{{ switch.name }}" class="btn btn-default {{switch.enabled_class}}">Off</a>
 
                 {% if switch.is_skip %}
                     <a href="/deletetemporary/{{ switch.name }}" class="btn btn-default active">Skip next</a>
