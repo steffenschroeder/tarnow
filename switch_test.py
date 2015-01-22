@@ -2,10 +2,11 @@
 Unittest for basic classes.
 Run only on Python >= 3.2 (because of dependency to mock
 """
-from unittest.mock import patch
+
 import os
 import glob
 import unittest
+from mock import patch
 
 from switch import Switch
 
@@ -50,6 +51,11 @@ class SwitchTest(unittest.TestCase):
     def test_toggle_all(self, mock_subprocess):
         Switch.toggle_all(1)
         self.assertEqual(mock_subprocess.call_count, 3)  # 3 switches in the config
+
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.exists("tarnow.tmp"):
+            os.remove("tarnow.tmp")
 
 
 if __name__ == '__main__':

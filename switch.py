@@ -73,11 +73,12 @@ class Skip:
     def _generate_file_name(self):
         current_path = os.path.dirname(os.path.realpath(sys.argv[0]))
         self.skipfilename = current_path + os.sep + self.type + self.name + ".skip"
+        log.syslog(self.skipfilename)
 
 
 # Inspired by: http://blog.vmfarms.com/2011/03/cross-process-locking-and.html """
 class Lock:
-    def __init__(self, filename="/tmp/tarnow.tmp"):
+    def __init__(self, filename="tarnow.tmp"):
         self.filename = filename
         self.handle = open(filename, 'w')
 
