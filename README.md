@@ -1,5 +1,6 @@
 Tarnow
 ======
+[![Build Status](https://travis-ci.org/steffenschroeder/tarnow.svg?branch=master)](https://travis-ci.org/steffenschroeder/tarnow)
 
 Tarnow is a wrapper and a front end for raspberry-remote. It consist of a responsive Flask Frontend and a wrapper 
 script to allow timed switches using cron.   
