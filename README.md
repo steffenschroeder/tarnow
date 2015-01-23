@@ -13,19 +13,20 @@ script to allow timed switches using cron.
 
 ## Installation
 1. Install a 433MHz sender to your raspberry pi (Data: pin 11 (GPIO 0), VCC: pin 2 (5V), GND: pin 6 (GND)
-2. install wiringPi (See http://wiringpi.com/download-and-install/ for detailed install instructions)
-    * clone git://git.drogon.net/wiringPi 
-    * run ``build.sh``
+2. Install required packages: ``sudo apt-get install make gcc gcc-c++``
+3. install wiringPi (See http://wiringpi.com/download-and-install/ for detailed install instructions)
+    * ``git clone git://git.drogon.net/wiringPi``
+    * run `./build``
  
-3. install raspberry remote (see also http://xkonni.github.io/raspberry-remote/)
+4. install raspberry remote (see also http://xkonni.github.io/raspberry-remote/)
     * ``git clone git://github.com/xkonni/raspberry-remote.git``
-    * execute _make_ (this creates a _send_ executable) in the cloned repository
+    * execute _make send_ (this creates a _send_ executable) in the cloned repository
     * ``sudo cp send /usr/local/sbin/send433``
     * ``sudo chown root:root /usr/local/sbin/send433``
-4. clone this repository 
-5. run ``sudo pip install -r requirements.txt``      
-6. adopt the config file (config.py) by adding your home code and the switches
-7. run ``python /home/pi/tarnow/tarnow.py`` to start the web server on port 8080
+5. clone this repository 
+6. run ``sudo pip install -r requirements.txt``      
+7. adopt the config file (config.py) by adding your home code and the switches
+8. run ``python /home/pi/tarnow/tarnow.py`` to start the web server on port 8080
 
 
 ## Build a times switch using cron
