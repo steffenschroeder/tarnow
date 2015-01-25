@@ -29,7 +29,7 @@ script to allow timed switches using cron.
 8. run ``python /home/pi/tarnow/tarnow.py`` to start the web server on port 8080
 
 
-## Build a times switch using cron
+## Build a timed switch using cron
 The switches can be changed by using the script tarnow_switch.py <switch> 0|1 
 This is useful to run as timed switch using cron
 Example (the switch 'radio' in defined in config.py:
@@ -46,6 +46,19 @@ Example (the switch 'radio' in defined in config.py:
 # turn off everyday at midnight
 0 0 * * * python3 /home/pi/tarnow/tarnow_switch.py  radio 0
 ```
+## HTTP API
+You can use a HTTP GET request to control the switches and skips. This can be useful to build on top of _tarnow_. You can e.g. store a switch-off-all URL on an NFC Tag. Then just scan the tag with your smartphone, the URL opens and everything is off.
+The format is like ``http://<ip>:8080/<command>/<parameter>``
+
+| Command         | What is does                               | Parameter         | Example                                           |
+|:----------------|:-------------------------------------------|:------------------|:--------------------------------------------------|
+| on              | Enables a switch                           | a switch or _all_ | http://192.168.0.12:8080/on/Radio                 |     
+| off             | Disables a switch                          | a switch or _all_ | http://192.168.0.12:8080/off/all                  | 
+| createtemporary | Skip next automatic switch execution       | a switch          | http://192.168.0.12:8080/createtemporary/Internet |
+| createpermanent | Skip all automatic switch executions       | a switch          | http://192.168.0.12:8080/createpermanent/TV       |
+| deletetemporary | Don't skip next automatic switch execution | a switch          | http://192.168.0.12:8080/deletetemporary/Internet |
+| deletepermanent | Don't skip next automatic switch execution | a switch          | http://192.168.0.12:8080/deletepermanent/TV       |
+
 
 ## Autostart
 To automatically start the server, add the following line to your ``/etc/rc.local``: 
