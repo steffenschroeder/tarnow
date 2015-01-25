@@ -57,7 +57,7 @@ The format is like ``http://<ip>:8080/<command>/<parameter>``
 | createtemporary | Skip next automatic switch execution       | a switch          | http://192.168.0.12:8080/createtemporary/Internet |
 | createpermanent | Skip all automatic switch executions       | a switch          | http://192.168.0.12:8080/createpermanent/TV       |
 | deletetemporary | Don't skip next automatic switch execution | a switch          | http://192.168.0.12:8080/deletetemporary/Internet |
-| deletepermanent | Don't skip next automatic switch execution | a switch          | http://192.168.0.12:8080/deletepermanent/TV       |
+| deletepermanent | Don't skip all automatic switch execution  | a switch          | http://192.168.0.12:8080/deletepermanent/TV       |
 
 
 ## Autostart
