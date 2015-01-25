@@ -16,15 +16,18 @@ def main():
         syslog.syslog(syslog.LOG_WARNING, "no configuration found for switch '%s'. Will exit" % switch_name)
         sys.exit(1)
 
-    switch = Switch(switch_name)
-    if switch.is_skip_all():
-        syslog.syslog("Skipping permanently " + switch.name)
-    elif switch.is_skip_next():
-        syslog.syslog("Skipping " + switch.name)
-        # delete the file
-        switch.dont_skip_next()
+    if switch_name == "all":
+        Switch.toggle_all(status)
     else:
-        switch.toggle(status)
+        switch = Switch(switch_name)
+        if switch.is_skip_all():
+            syslog.syslog("Skipping permanently " + switch.name)
+        elif switch.is_skip_next():
+            syslog.syslog("Skipping " + switch.name)
+            # delete the file
+            switch.dont_skip_next()
+        else:
+            switch.toggle(status)
 
 
 

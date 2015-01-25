@@ -73,7 +73,6 @@ class Skip:
     def _generate_file_name(self):
         current_path = os.path.dirname(os.path.realpath(sys.argv[0]))
         self.skipfilename = current_path + os.sep + self.type + self.name + ".skip"
-        log.syslog(self.skipfilename)
 
 
 # Inspired by: http://blog.vmfarms.com/2011/03/cross-process-locking-and.html """
