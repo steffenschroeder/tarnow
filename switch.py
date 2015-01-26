@@ -21,16 +21,30 @@ class Switch:
         self.all_skip = Skip(name, 'pernament')
 
     def toggle(self, status):
+        if self.is_skip_all():
+            log.syslog("Skipping permanently " + self.name)
+            return
+        elif self.is_skip_next():
+            log.syslog("Skipping " + self.name)
+            # delete the file
+            self.dont_skip_next()
+            return
+
+        if self.name in config.switches:
+            self._change_status(status)
+        elif self.name == "all":
+            Switch.toggle_all(status)
+        else:
+            log.syslog(log.LOG_WARNING, "Called with unknown switch: " + self.name)
+
+    def _change_status(self, status):
         lock = Lock()
         try:
             lock.acquire()
             switch_to_change = config.switches.get(self.name)
-            if switch_to_change is not None:
-                unit_code = str(switch_to_change.get('unitcode'))
-                log.syslog("changing status of '%s' to '%s'" % (self.name, status))
-                subprocess.call([str(config.executable), str(config.areacode), str(unit_code), str(status)])
-            else:
-                log.syslog(log.LOG_WARNING, "Called with unknown switch: " + self.name)
+            unit_code = str(switch_to_change.get('unitcode'))
+            log.syslog("changing status of '%s' to '%s'" % (self.name, status))
+            subprocess.call([str(config.executable), str(config.areacode), str(unit_code), str(status)])
         finally:
             lock.release()
 

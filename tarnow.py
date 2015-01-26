@@ -10,6 +10,7 @@ app = Flask(__name__)
 Bootstrap(app)
 app.config.from_object(config)
 
+
 @app.route('/')
 def show_switches():
     switches = get_switches()
@@ -35,16 +36,19 @@ def homepage():
 
 @app.route('/on/<string:switch>')
 def on(switch):
-    # TODO: security check
     toggle_switch(switch, 1)
     return homepage()
 
 
 @app.route('/off/<string:switch>')
 def off(switch):
-    # TODO: security check
     toggle_switch(switch, 0)
     return homepage()
+
+
+def toggle_switch(switch, status):
+    s = Switch(switch)
+    s.toggle(status)
 
 
 @app.route('/createtemporary/<string:switch>')
@@ -74,13 +78,7 @@ def delete_t_skip(switch):
     s.dont_skip_next()
     return homepage()
 
-def toggle_switch(switch, status):
-    if switch == "all":
-        Switch.toggle_all(status)
-    else:
-        s = Switch(switch)
-        s.toggle(status)
 
 if __name__ == '__main__':
-    enable_debug = True
+    enable_debug = False
     app.run(host='0.0.0.0', port=8080, debug=enable_debug)

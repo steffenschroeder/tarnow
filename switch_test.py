@@ -1,8 +1,3 @@
-"""
-Unittest for basic classes.
-Run only on Python >= 3.2 (because of dependency to mock
-"""
-
 import os
 import glob
 import unittest
