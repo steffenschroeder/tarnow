@@ -5,17 +5,10 @@ from switch import Switch
 import config
 
 
-def main():
-    if len(sys.argv) != 3:
-        syslog.syslog(syslog.LOG_ERR, "Wrong number of arguments: expected: 2 , got %d" % (len(sys.argv) - 1))
-        exit(1)
-
-    switch_name, status = sys.argv[1:]
-
+def toggle(switch_name, status):
     if switch_name not in config.switches and switch_name != "all":
         syslog.syslog(syslog.LOG_WARNING, "no configuration found for switch '%s'. Will exit" % switch_name)
         sys.exit(1)
-
     if switch_name == "all":
         Switch.toggle_all(status)
     else:
@@ -28,6 +21,16 @@ def main():
             switch.dont_skip_next()
         else:
             switch.toggle(status)
+
+
+def main():
+    if len(sys.argv) != 3:
+        syslog.syslog(syslog.LOG_ERR, "Wrong number of arguments: expected: 2 , got %d" % (len(sys.argv) - 1))
+        exit(1)
+
+    switch_name, status = sys.argv[1:]
+
+    toogle(status, switch_name)
 
 
 
