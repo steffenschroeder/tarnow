@@ -14,7 +14,7 @@ def main():
         syslog.syslog(syslog.LOG_ERR, "Wrong number of arguments: expected: 2 , got %d" % (len(sys.argv) - 1))
         exit(1)
     switch_name, status = sys.argv[1:]
-    toggle(status, switch_name)
+    toggle(switch_name, status)
 
 
 if __name__ == '__main__':
