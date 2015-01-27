@@ -9,11 +9,11 @@ def toggle(switch_name, status):
     switch.toggle(status)
 
 
-def main():
-    if len(sys.argv) != 3:
-        syslog.syslog(syslog.LOG_ERR, "Wrong number of arguments: expected: 2 , got %d" % (len(sys.argv) - 1))
-        exit(1)
-    switch_name, status = sys.argv[1:]
+def main(args=sys.argv):
+    if len(args) != 3:
+        syslog.syslog(syslog.LOG_ERR, "Wrong number of arguments: expected: 2 , got %d" % (len(args) - 1))
+        return
+    switch_name, status = args[1:]
     toggle(switch_name, status)
 
 
