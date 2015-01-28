@@ -70,4 +70,7 @@ The format is like ``http://<ip>:8080/<command>/<parameter>``
 To automatically start the server, add the following line to your ``/etc/rc.local``: 
 ``python /home/pi/tarnow/tarnow.py &``
 
+## And finally: how it looks like
+![Screenshot](https://raw.githubusercontent.com/steffenschroeder/tarnow/docu/screenshots/mobile.png)
+
 Licensed under the [MIT License](http://en.wikipedia.org/wiki/MIT_License)
