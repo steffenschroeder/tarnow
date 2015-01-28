@@ -7,7 +7,10 @@ import syslog as log
 import config
 
 
-class Switch:
+class Switch(object):
+    def __str__(self):
+        return "Name: '%s', NextSkip: '%s', AllSkip: '%s'" % (self.name, str(self.next_skip), str(self.all_skip))
+
     @classmethod
     def toggle_all(cls, status):
         switches = config.switches
@@ -67,7 +70,10 @@ class Switch:
         self.all_skip.create()
 
 
-class Skip:
+class Skip(object):
+    def __str__(self):
+        return "Name: '%s', Type: '%s', enabled: ''%s" % (self.name,self.type, self.enabled())
+
     def __init__(self, name, skiptype):
         self.name = name
         self.type = skiptype

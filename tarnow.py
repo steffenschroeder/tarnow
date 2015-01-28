@@ -3,6 +3,8 @@ from flask import render_template
 from flask_bootstrap import Bootstrap
 
 from switch import *
+from next_execution import NextSwitchExecution
+from crontab import CronTab
 import config
 
 
@@ -20,13 +22,15 @@ def show_switches():
 def get_switches():
     switches = []
     switches_from_config = config.switches
+    tab = CronTab(user='root')
     for switch in switches_from_config.keys():
-        s = Switch(switch)
+        s = NextSwitchExecution(switch, crontab=tab)
         b = " disabled" if (s.is_skip_next() or s.is_skip_all()) else ""
         switches.append(dict(name=s.name,
                              is_skip=s.is_skip_next(),
                              is_permanent_skip=s.is_skip_all(),
-                             enabled_class=b))
+                             enabled_class=b,
+                             next=s.get_relative_time() or ""))
     return switches
 
 
@@ -80,5 +84,5 @@ def delete_t_skip(switch):
 
 
 if __name__ == '__main__':
-    enable_debug = False
+    enable_debug = True #TODO change back
     app.run(host='0.0.0.0', port=8080, debug=enable_debug)
