@@ -2,31 +2,37 @@ Tarnow
 ======
 [![Build Status](https://travis-ci.org/steffenschroeder/tarnow.svg?branch=master)](https://travis-ci.org/steffenschroeder/tarnow)
 
-Tarnow is a wrapper and a front end for raspberry-remote. It consist of a responsive Flask Frontend and a wrapper 
-script to allow timed switches using cron.   
+Tarnow is a front end for [rcswitch-pi](https://github.com/r10r/rcswitch-pi/). It consist of a responsive Flask Frontend and a wrapper 
+script to allow timed switches using cronjobs. All you need to know is the a  
 
 
 ## Features
 1. Use the crontab to automatically switch on / switch off 433MHz radio controlled switches
 2. Skip next occurrence 
 3. Skip all occurrences
+4. switch on / off all your switches at once
 
 ## Installation
 1. Install a 433MHz sender to your raspberry pi (Data: pin 11 (GPIO 0), VCC: pin 2 (5V), GND: pin 6 (GND)
 2. Install required packages: ``sudo apt-get install make gcc gcc-c++``
 3. install wiringPi (See http://wiringpi.com/download-and-install/ for detailed install instructions)
     * ``git clone git://git.drogon.net/wiringPi``
+    * go to directory wiringPi
     * run `./build``
- 
-4. install raspberry remote (see also http://xkonni.github.io/raspberry-remote/)
-    * ``git clone git://github.com/xkonni/raspberry-remote.git``
-    * execute _make send_ (this creates a _send_ executable) in the cloned repository
+ 4. install rcswitch-pi (see also https://github.com/r10r/rcswitch-pi/)
+    * ``git clone https://github.com/r10r/rcswitch-pi.git``
+    * go to directory rcswitch-pi
+    * execute ``make`` (this creates a _send_ executable) in the cloned repository
     * ``sudo cp send /usr/local/sbin/send433``
     * ``sudo chown root:root /usr/local/sbin/send433``
 5. clone this repository 
 6. run ``sudo pip install -r requirements.txt``      
 7. adopt the config file (config.py) by adding your home code and the switches
-8. run ``python /home/pi/tarnow/tarnow.py`` to start the web server on port 8080
+
+## Usage
+1. run ``python /home/pi/tarnow/tarnow.py`` to start the web server on port 8080. 
+   Open the url _http://ip:8080_ where _ip_ is the IP for your Raspberry Pi. 
+2. run ``python /home/pi/tarnow/tarnow_switch.py <switchname>|all 0|1`` from command line or a cron job
 
 
 ## Build a timed switch using cron
