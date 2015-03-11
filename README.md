@@ -18,7 +18,7 @@ script to allow timed switches using cronjobs. All you need to know is the a
 3. install wiringPi (See http://wiringpi.com/download-and-install/ for detailed install instructions)
     * ``git clone git://git.drogon.net/wiringPi``
     * go to directory wiringPi
-    * run `./build``
+    * run `./build`
  4. install rcswitch-pi (see also https://github.com/r10r/rcswitch-pi/)
     * ``git clone https://github.com/r10r/rcswitch-pi.git``
     * go to directory rcswitch-pi
