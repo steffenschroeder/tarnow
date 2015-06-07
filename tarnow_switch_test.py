@@ -29,7 +29,7 @@ class CommandLineSwitchTest(unittest.TestCase):
     @patch('switch.subprocess.call')
     def test_toggle_all(self, mock_subprocess):
         tarnow_switch.toggle("all", 1)
-        self.assertEqual(mock_subprocess.call_count, 3)
+        self.assertEqual(mock_subprocess.call_count, 2)
 
     @patch('switch.subprocess.call')
     def test_skip_next(self, mock_subprocess):
