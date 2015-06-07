@@ -16,12 +16,14 @@ class Switch(object):
         switches = config.switches
         for switch in switches.keys():
             s = Switch(switch)
-            s.toggle(status)
+            if not s.dontIncludeInAllRuns:
+                s.toggle(status)
 
     def __init__(self, name):
         self.name = name
         self.next_skip = Skip(name, 'skip')
         self.all_skip = Skip(name, 'pernament')
+        self._initAlwaysOn()
 
     def toggle(self, status):
         if self.is_skip_all():
@@ -68,6 +70,12 @@ class Switch(object):
 
     def skip_all(self):
         self.all_skip.create()
+
+    def _initAlwaysOn(self):
+        self.dontIncludeInAllRuns = False
+        if self.name in config.switches.keys():
+            s = config.switches.get(self.name)
+            self.dontIncludeInAllRuns = s.get('dontIncludeInAllRuns',False)
 
 
 class Skip(object):
