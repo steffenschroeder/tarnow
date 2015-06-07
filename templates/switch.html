@@ -35,14 +35,16 @@
     <div class="container">
     {% for switch in switches|sort(attribute='name') %}
         <div class="row">
-            <div class="col-md-1">
+            <div class="col-md-12">
                 <h3>{{ switch.name}}
                  {% if switch.next %}
                 <small>{{ switch.next}} </small>
                  {% endif %}
                 </h3>
             </div>
-            <div class="col-md-11">
+            </div>
+            <div class="row">
+            <div class="col-md-12">
 
                 <a href="/on/{{ switch.name }}" class="btn btn-default {{switch.enabled_class}}">On</a>
 
