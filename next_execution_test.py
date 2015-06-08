@@ -2,8 +2,6 @@ __author__ = 'mav'
 
 import unittest
 import next_execution
-import config
-import switch
 import crontab
 from datetime import datetime
 
@@ -19,6 +17,8 @@ CRONTAB = """
 30 22  * * sun-thu python3 /home/pi/tarnow/tarnow_switch.py  Radio 0
 # turn off everyday at midnight
 0 0 * * * python3 /home/pi/tarnow/tarnow_switch.py all 0
+0 6 * * * python3 /home/pi/tarnow/tarnow_switch.py Nightlight 0
+0 22 * * * python3 /home/pi/tarnow/tarnow_switch.py Nightlight 1
 
 0 4 * * * reboot
 """
@@ -61,11 +61,20 @@ class MyTestCase(unittest.TestCase):
         next_exec = self.cut.get_next_execution()
         self.assertEqual(next_exec, None)
 
+    def test_next_dont_use_all_jobs(self):
+        self.now = datetime(2015,5,15,22,15,0)
+        self.cut=next_execution.NextSwitchExecution('Nightlight', date=self.now, crontab=self.cron)
+        next_exec = self.cut.get_next_execution()
+        self.assertNotEqual(next_exec,None)
+        (time,status) = next_exec
+        self.assertEqual(time, datetime(2015,5,16,6,0,0)) # skip the 'all' cronjob on midnight
+        self.assertEqual(status, 0)
+
     def setUp(self):
         super(MyTestCase, self).setUp()
-        cron = crontab.CronTab(tab=CRONTAB)
-        now = datetime(2015,5,15,17,0,0)
-        self.cut=next_execution.NextSwitchExecution('Radio', date=now, crontab=cron)
+        self.cron = crontab.CronTab(tab=CRONTAB)
+        self.now = datetime(2015,5,15,17,0,0)
+        self.cut=next_execution.NextSwitchExecution('Radio', date=self.now, crontab=self.cron)
 
     def tearDown(self):
         self.cut.dont_skip_all()

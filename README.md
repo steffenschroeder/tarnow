@@ -50,7 +50,7 @@ Example (the switch 'radio' in defined in config.py:
 # Sunday to Thursday 10:30 am
 30 22  * * sun-thu python3 /home/pi/tarnow/tarnow_switch.py  radio 0
 # turn off everyday at midnight
-0 0 * * * python3 /home/pi/tarnow/tarnow_switch.py  radio 0
+0 0 * * * python3 /home/pi/tarnow/tarnow_switch.py all 0
 ```
 ## HTTP API
 You can use a HTTP GET request to control the switches and skips. This can be useful to build on top of _tarnow_. You can e.g. store a switch-off-all URL on an NFC Tag. Then just scan the tag with your smartphone, the URL opens and everything is off.

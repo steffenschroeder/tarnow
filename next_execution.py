@@ -14,7 +14,8 @@ class NextSwitchExecution(Switch):
             return None
         jobs = self._get_relevant_jobs()
 
-        if not jobs: return
+        if not jobs:
+            return
 
         jobs.sort(key=lambda x: x['nextExecution'])
 
@@ -32,7 +33,7 @@ class NextSwitchExecution(Switch):
             if 'tarnow' not in job.command:
                 continue
 
-            if self.name in job.command or 'all' in job.command:
+            if self.name in job.command or ('all' in job.command and not self.dontIncludeInAllRuns):
                 my_iter = croniter(slices, self.date)
                 nextExec = my_iter.get_next(datetime)
                 jobs.append(dict(slice=slices, nextExecution=nextExec, command=job.command))
