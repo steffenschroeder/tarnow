@@ -69,7 +69,7 @@ The format is like ``http://<ip>:8080/<command>/<parameter>``
 
 ## Autostart
 To automatically start the server, add the following line to your ``/etc/rc.local``: 
-``python /home/pi/tarnow/tarnow.py &``
+``python /home/pi/tarnow/tarnow.py &`` (or when using gunicorn  ``cd /home/pi/tarnow && sudo gunicorn --bind 0.0.0.0:8080 tarnow:app``)
 
 ## And finally: how it looks like
 ![Screenshot](https://raw.githubusercontent.com/steffenschroeder/tarnow/docu/screenshots/mobile.png)
