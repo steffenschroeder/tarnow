@@ -30,9 +30,10 @@ script to allow timed switches using cronjobs. All you need to know is the a
 7. adopt the config file (config.py) by adding your home code and the switches
 
 ## Usage
-1. run ``python /home/pi/tarnow/tarnow.py`` to start the web server on port 8080. 
-   Open the url _http://ip:8080_ where _ip_ is the IP for your Raspberry Pi. 
-2. run ``python /home/pi/tarnow/tarnow_switch.py <switchname>|all 0|1`` from command line or a cron job
+- To use the dev server, run ``python /home/pi/tarnow/tarnow.py`` to start the web server on port 8080.
+- To use a production ready server, run ``sudo gunicorn --bind 0.0.0.0:8080 tarnow:app`` (after you installed ``pip install gunicorn``)
+- Open the url _http://ip:8080_ where _ip_ is the IP for your Raspberry Pi. 
+- run ``python /home/pi/tarnow/tarnow_switch.py <switchname>|all 0|1`` from command line or a cron job
 
 
 ## Build a timed switch using cron
