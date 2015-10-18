@@ -99,7 +99,10 @@ class Skip(object):
             os.remove(self.skipfilename)
 
     def _generate_file_name(self):
-        current_path = os.path.dirname(os.path.realpath(sys.argv[0]))
+        home = os.path.expanduser("~")
+        current_path = home + os.sep + '.tarnow'
+        if not os.path.exists(current_path):
+            os.makedirs(current_path)
         self.skipfilename = current_path + os.sep + self.type + self.name + ".skip"
 
 
