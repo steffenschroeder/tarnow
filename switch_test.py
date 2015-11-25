@@ -45,7 +45,7 @@ class SwitchTest(unittest.TestCase):
     @patch('switch.subprocess.call')
     def test_toggle_all(self, mock_subprocess):
         Switch.toggle_all(1)
-        self.assertEqual(mock_subprocess.call_count, 4)  # 1 switches in the config, one is alwayOn
+        self.assertEqual(mock_subprocess.call_count, 3)  # 1 switches in the config, one is alwayOn
 
     @classmethod
     def tearDownClass(cls):
