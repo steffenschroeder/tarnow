@@ -61,6 +61,7 @@ class MyTestCase(unittest.TestCase):
         next_exec = self.cut.get_next_execution()
         self.assertEqual(next_exec, None)
 
+    @unittest.skip("The is no configuration nightlight left")
     def test_next_dont_use_all_jobs(self):
         self.now = datetime(2015,5,15,22,15,0)
         self.cut=next_execution.NextSwitchExecution('Nightlight', date=self.now, crontab=self.cron)
