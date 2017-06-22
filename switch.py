@@ -19,10 +19,11 @@ class Switch(object):
             if not s.dontIncludeInAllRuns:
                 s.toggle(status)
 
-    def __init__(self, name):
+    def __init__(self, name, all_switches=config.switches):
         self.name = name
         self.next_skip = Skip(name, 'skip')
         self.all_skip = Skip(name, 'pernament')
+        self.all_switches = all_switches
         self._initAlwaysOn()
 
     def toggle(self, status):
@@ -46,7 +47,7 @@ class Switch(object):
         lock = Lock()
         try:
             lock.acquire()
-            switch_to_change = config.switches.get(self.name)
+            switch_to_change = self.all_switches.get(self.name)
             unit_code = str(switch_to_change.get('unitcode'))
             log.syslog("changing status of '%s' to '%s'" % (self.name, status))
             subprocess.call([str(config.executable), str(config.areacode), str(unit_code), str(status)])
@@ -73,8 +74,8 @@ class Switch(object):
 
     def _initAlwaysOn(self):
         self.dontIncludeInAllRuns = False
-        if self.name in config.switches.keys():
-            s = config.switches.get(self.name)
+        if self.name in self.all_switches.keys():
+            s = self.all_switches.get(self.name)
             self.dontIncludeInAllRuns = s.get('dontIncludeInAllRuns',False)
 
 

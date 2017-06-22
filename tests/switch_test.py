@@ -4,6 +4,7 @@ import unittest
 from mock import patch
 
 from switch import Switch
+import config
 
 
 class SwitchTest(unittest.TestCase):
@@ -14,7 +15,7 @@ class SwitchTest(unittest.TestCase):
 
     def setUp(self):
         self.delete_skip_files()
-        self.cut = Switch('Radio')
+        self.cut = Switch('Radio', all_switches={"Radio": {"unitcode": 3}})
 
     def tearDown(self):
         self.delete_skip_files()
@@ -38,9 +39,9 @@ class SwitchTest(unittest.TestCase):
     @patch('switch.subprocess.call')
     def test_toggle(self, mock_subprocess):
         self.cut.toggle(1)
-        mock_subprocess.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '1'])
+        mock_subprocess.assert_called_with([config.executable, config.areacode, '3', '1'])
         self.cut.toggle(0)
-        mock_subprocess.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '0'])
+        mock_subprocess.assert_called_with([config.executable, config.areacode, '3', '0'])
 
     @patch('switch.subprocess.call')
     def test_toggle_all(self, mock_subprocess):

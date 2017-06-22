@@ -36,6 +36,8 @@ class MyTestCase(unittest.TestCase):
         next_exec = self.cut.get_next_execution()
         self.assertNotEqual(next_exec,None)
         (time,status) = next_exec
+        self.assertEqual(time, datetime(2015, 5, 15, 18, 0))
+        self.assertEqual(status, 1)
 
         result_time = self.cut.get_relative_time()
 
