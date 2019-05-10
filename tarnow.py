@@ -22,7 +22,10 @@ def show_switches():
 def get_switches():
     switches = []
     switches_from_config = config.switches
-    tab = CronTab(user='root')
+    try:
+        tab = CronTab(user='root')
+    except IOError:
+        tab = None
     for switch in switches_from_config.keys():
         s = NextSwitchExecution(switch, crontab=tab)
         b = " disabled" if (s.is_skip_next() or s.is_skip_all()) else ""

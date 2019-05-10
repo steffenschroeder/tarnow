@@ -1,12 +1,13 @@
 from switch import Switch
 from datetime import datetime
 from croniter import croniter
+from crontab import CronTab
 
 
 class NextSwitchExecution(Switch):
     def __init__(self, name, date=None, crontab=None):
         super(NextSwitchExecution, self).__init__(name)
-        self.crontab = crontab
+        self.crontab = crontab or CronTab()
         self.date = date or datetime.today()
 
     def get_next_execution(self):
