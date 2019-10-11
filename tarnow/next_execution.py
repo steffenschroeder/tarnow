@@ -18,49 +18,60 @@ class NextSwitchExecution(Switch):
         if not jobs:
             return
 
-        jobs.sort(key=lambda x: x['nextExecution'])
+        jobs.sort(key=lambda x: x["nextExecution"])
 
         if self.is_skip_next():
             next_execution_of_relevant_jobs = jobs[1]
         else:
             next_execution_of_relevant_jobs = jobs[0]
-        return next_execution_of_relevant_jobs['nextExecution'], int(next_execution_of_relevant_jobs['command'][-1])
+        return (
+            next_execution_of_relevant_jobs["nextExecution"],
+            int(next_execution_of_relevant_jobs["command"][-1]),
+        )
 
     def _get_relevant_jobs(self):
         jobs = []
         for job in self.crontab:
             slices = str(job.slices.clean_render())
 
-            if 'tarnow' not in job.command:
+            if "tarnow" not in job.command:
                 continue
 
-            if self.name in job.command or ('all' in job.command and not self.dontIncludeInAllRuns):
+            if self.name in job.command or (
+                "all" in job.command and not self.dontIncludeInAllRuns
+            ):
                 my_iter = croniter(slices, self.date)
                 nextExec = my_iter.get_next(datetime)
-                jobs.append(dict(slice=slices, nextExecution=nextExec, command=job.command))
+                jobs.append(
+                    dict(slice=slices, nextExecution=nextExec, command=job.command)
+                )
 
         return jobs
 
     def get_relative_time(self):
         a = self.get_next_execution()
         if a:
-            return "switching %s in %s" % (('on' if a[1] else 'off'), get_age(self.date, a[0]) if a else "")
+            return "switching %s in %s" % (
+                ("on" if a[1] else "off"),
+                get_age(self.date, a[0]) if a else "",
+            )
         else:
             return ""
 
-#Inspired by https://gist.github.com/zhangsen/1199964
+
+# Inspired by https://gist.github.com/zhangsen/1199964
 def get_age(date1, date2):
-    '''Take a datetime and return its "age" as a string.
+    """Take a datetime and return its "age" as a string.
 
     The age can be in second, minute, hour, day, month or year. Only the
     biggest unit is considered, e.g. if it's 2 days and 3 hours, "2 days" will
     be returned.
 
     Make sure date is not in the future, or else it won't work.
-    '''
+    """
 
     def formatn(n, s):
-        '''Add "s" if it's plural'''
+        """Add "s" if it's plural"""
 
         if n == 1:
             return "1 %s" % s
@@ -68,7 +79,7 @@ def get_age(date1, date2):
             return "%d %ss" % (n, s)
 
     def q_n_r(a, b):
-        '''Return quotient and remaining'''
+        """Return quotient and remaining"""
 
         return a / b, a % b
 
@@ -85,10 +96,10 @@ def get_age(date1, date2):
             self.minute, self.second = q_n_r(self.second, 60)
 
         def format(self):
-            for period in ['year', 'month', 'day', 'hour', 'minute', 'second']:
+            for period in ["year", "month", "day", "hour", "minute", "second"]:
                 n = getattr(self, period)
                 if n > 0:
                     return formatn(n, period)
             return "0 second"
 
-    return PrettyDelta(date1,date2).format()
+    return PrettyDelta(date1, date2).format()

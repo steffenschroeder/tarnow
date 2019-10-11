@@ -1,6 +1,7 @@
 import pytest
 import os
 
+
 @pytest.fixture(autouse=True)
 def change_tempory_directory(tmpdir):
     tmpdir.chdir()
@@ -11,4 +12,4 @@ def change_tempory_directory(tmpdir):
 
 @pytest.fixture(autouse=True)
 def patch_subprocess(mocker):
-    mocker.patch('subprocess.call')
+    mocker.patch("subprocess.call")

@@ -4,24 +4,24 @@ from tarnow import tarnow_switch
 from tarnow.switch import Switch
 import subprocess
 
+
 def test_toggle_single():
-    tarnow_switch.main(['dontCare', 'Radio', 1])
+    tarnow_switch.main(["dontCare", "Radio", 1])
     assert subprocess.call.call_count == 1
 
+
 def test_toggle_non_existing():
-    tarnow_switch.main(['dontCare', 'this switch does not exist', 1])
+    tarnow_switch.main(["dontCare", "this switch does not exist", 1])
     assert subprocess.call.call_count == 0
 
 
 def test_wrong_parameter():
-    tarnow_switch.main(['dontCare'])
+    tarnow_switch.main(["dontCare"])
     assert subprocess.call.call_count == 0
-    tarnow_switch.main(['dontCare', 'Radio'])
+    tarnow_switch.main(["dontCare", "Radio"])
     assert subprocess.call.call_count == 0
-    tarnow_switch.main(['dontCare', 'this switch does not exist', 1, 'too much'])
+    tarnow_switch.main(["dontCare", "this switch does not exist", 1, "too much"])
     assert subprocess.call.call_count == 0
-
-
 
 
 def test_toggle_all():
@@ -50,5 +50,5 @@ def test_skip_all():
     assert subprocess.call.call_count == 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

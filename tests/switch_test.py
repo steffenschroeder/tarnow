@@ -3,13 +3,16 @@ import pytest
 
 from tarnow.switch import Switch
 
+
 @pytest.fixture()
 def cut():
-    return Switch('Radio')
+    return Switch("Radio")
+
 
 def test_all_skips_are_initially_false(cut):
     assert not cut.is_skip_next()
     assert not cut.is_skip_all()
+
 
 def test_skip_next(cut):
     cut.skip_next()
@@ -17,17 +20,20 @@ def test_skip_next(cut):
     cut.dont_skip_next()
     assert not cut.is_skip_next()
 
+
 def test_skip_permanent(cut):
     cut.skip_all()
     assert cut.is_skip_all()
     cut.dont_skip_all()
     assert not cut.is_skip_all()
 
+
 def test_toggle(cut):
     cut.toggle(1)
-    subprocess.call.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '1'])
+    subprocess.call.assert_called_with(["/usr/local/sbin/send433", "11111", "3", "1"])
     cut.toggle(0)
-    subprocess.call.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '0'])
+    subprocess.call.assert_called_with(["/usr/local/sbin/send433", "11111", "3", "0"])
+
 
 def test_toggle_all(cut):
     Switch.toggle_all(1)

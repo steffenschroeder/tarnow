@@ -9,7 +9,11 @@ from . import config
 
 class Switch(object):
     def __str__(self):
-        return "Name: '%s', NextSkip: '%s', AllSkip: '%s'" % (self.name, str(self.next_skip), str(self.all_skip))
+        return "Name: '%s', NextSkip: '%s', AllSkip: '%s'" % (
+            self.name,
+            str(self.next_skip),
+            str(self.all_skip),
+        )
 
     @classmethod
     def toggle_all(cls, status):
@@ -21,8 +25,8 @@ class Switch(object):
 
     def __init__(self, name):
         self.name = name
-        self.next_skip = Skip(name, 'skip')
-        self.all_skip = Skip(name, 'pernament')
+        self.next_skip = Skip(name, "skip")
+        self.all_skip = Skip(name, "pernament")
         self._initAlwaysOn()
 
     def toggle(self, status):
@@ -47,9 +51,16 @@ class Switch(object):
         try:
             lock.acquire()
             switch_to_change = config.switches.get(self.name)
-            unit_code = str(switch_to_change.get('unitcode'))
+            unit_code = str(switch_to_change.get("unitcode"))
             log.syslog("changing status of '%s' to '%s'" % (self.name, status))
-            subprocess.call([str(config.executable), str(config.areacode), str(unit_code), str(status)])
+            subprocess.call(
+                [
+                    str(config.executable),
+                    str(config.areacode),
+                    str(unit_code),
+                    str(status),
+                ]
+            )
         finally:
             lock.release()
 
@@ -75,12 +86,16 @@ class Switch(object):
         self.dontIncludeInAllRuns = False
         if self.name in config.switches.keys():
             s = config.switches.get(self.name)
-            self.dontIncludeInAllRuns = s.get('dontIncludeInAllRuns',False)
+            self.dontIncludeInAllRuns = s.get("dontIncludeInAllRuns", False)
 
 
 class Skip(object):
     def __str__(self):
-        return "Name: '%s', Type: '%s', enabled: ''%s" % (self.name,self.type, self.enabled())
+        return "Name: '%s', Type: '%s', enabled: ''%s" % (
+            self.name,
+            self.type,
+            self.enabled(),
+        )
 
     def __init__(self, name, skiptype):
         self.name = name
@@ -91,7 +106,7 @@ class Skip(object):
         return os.path.exists(self.skipfilename)
 
     def create(self):
-        with open(self.skipfilename, 'a'):
+        with open(self.skipfilename, "a"):
             os.utime(self.skipfilename, None)
 
     def delete(self):
@@ -100,7 +115,7 @@ class Skip(object):
 
     def _generate_file_name(self):
         home = os.path.expanduser("~")
-        current_path = home + os.sep + '.tarnow'
+        current_path = home + os.sep + ".tarnow"
         if not os.path.exists(current_path):
             os.makedirs(current_path)
         self.skipfilename = current_path + os.sep + self.type + self.name + ".skip"
@@ -110,7 +125,7 @@ class Skip(object):
 class Lock:
     def __init__(self, filename="tarnow.tmp"):
         self.filename = filename
-        self.handle = open(filename, 'w')
+        self.handle = open(filename, "w")
 
     def acquire(self):
         fcntl.flock(self.handle, fcntl.LOCK_EX)
