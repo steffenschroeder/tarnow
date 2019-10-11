@@ -1,57 +1,34 @@
-import os
-import glob
-import unittest
-from mock import patch
+import subprocess
+import pytest
 
 from tarnow.switch import Switch
 
+@pytest.fixture()
+def cut():
+    return Switch('Radio')
 
-class SwitchTest(unittest.TestCase):
-    def delete_skip_files(self):
-        files = glob.glob('*.skip')
-        for f in files:
-            os.remove(f)
+def test_all_skips_are_initially_false(cut):
+    assert not cut.is_skip_next()
+    assert not cut.is_skip_all()
 
-    def setUp(self):
-        self.delete_skip_files()
-        self.cut = Switch('Radio')
+def test_skip_next(cut):
+    cut.skip_next()
+    assert cut.is_skip_next()
+    cut.dont_skip_next()
+    assert not cut.is_skip_next()
 
-    def tearDown(self):
-        self.delete_skip_files()
+def test_skip_permanent(cut):
+    cut.skip_all()
+    assert cut.is_skip_all()
+    cut.dont_skip_all()
+    assert not cut.is_skip_all()
 
-    def test_all_skips_are_initially_false(self):
-        self.assertFalse(self.cut.is_skip_next())
-        self.assertFalse(self.cut.is_skip_all())
+def test_toggle(cut):
+    cut.toggle(1)
+    subprocess.call.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '1'])
+    cut.toggle(0)
+    subprocess.call.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '0'])
 
-    def test_skip_next(self):
-        self.cut.skip_next()
-        self.assertTrue(self.cut.is_skip_next())
-        self.cut.dont_skip_next()
-        self.assertFalse(self.cut.is_skip_next())
-
-    def test_skip_permanent(self):
-        self.cut.skip_all()
-        self.assertTrue(self.cut.is_skip_all())
-        self.cut.dont_skip_all()
-        self.assertFalse(self.cut.is_skip_all())
-
-    @patch('subprocess.call')
-    def test_toggle(self, mock_subprocess):
-        self.cut.toggle(1)
-        mock_subprocess.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '1'])
-        self.cut.toggle(0)
-        mock_subprocess.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '0'])
-
-    @patch('subprocess.call')
-    def test_toggle_all(self, mock_subprocess):
-        Switch.toggle_all(1)
-        self.assertEqual(mock_subprocess.call_count, 2)  # 1 switches in the config, one is alwayOn
-
-    @classmethod
-    def tearDownClass(cls):
-        if os.path.exists("tarnow.tmp"):
-            os.remove("tarnow.tmp")
-
-
-if __name__ == '__main__':
-    unittest.main()
+def test_toggle_all(cut):
+    Switch.toggle_all(1)
+    assert subprocess.call.call_count == 2  # 1 switches in the config, one is alwayOn
