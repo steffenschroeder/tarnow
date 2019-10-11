@@ -78,10 +78,10 @@ def test_skip(cut):
     assert status == 0
 
 
-def test_next(cut):
+def test_skip_all(cut):
     cut.skip_all()
     next_exec = cut.get_next_execution()
-    assert next_exec == None
+    assert next_exec is None
 
 
 @pytest.mark.skip("The is no configuration nightlight left")

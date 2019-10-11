@@ -2,13 +2,13 @@ Tarnow
 ======
 [![Build Status](https://travis-ci.org/steffenschroeder/tarnow.svg?branch=master)](https://travis-ci.org/steffenschroeder/tarnow)
 
-Tarnow is a front end for [rcswitch-pi](https://github.com/r10r/rcswitch-pi/). It consist of a responsive Flask Frontend and a wrapper 
-script to allow timed switches using cronjobs. All you need to know is the a  
+Tarnow is a front end for [rcswitch-pi](https://github.com/r10r/rcswitch-pi/). It consist of a responsive Flask Frontend and a wrapper
+script to allow timed switches using cronjobs. All you need to know is the a
 
 
 ## Features
 1. Use the crontab to automatically switch on / switch off 433MHz radio controlled switches
-2. Skip next occurrence 
+2. Skip next occurrence
 3. Skip all occurrences
 4. switch on / off all your switches at once
 
@@ -25,19 +25,19 @@ script to allow timed switches using cronjobs. All you need to know is the a
     * execute ``make`` (this creates a _send_ executable) in the cloned repository
     * ``sudo cp send /usr/local/sbin/send433``
     * ``sudo chown root:root /usr/local/sbin/send433``
-5. clone this repository 
-6. run ``sudo pip install -r requirements.txt``      
+5. clone this repository
+6. run ``sudo pip install -r requirements.txt``
 7. adopt the config file (config.py) by adding your home code and the switches
 
 ## Usage
 - To use the dev server, run ``python /home/pi/tarnow/tarnow.py`` to start the web server on port 8080.
 - To use a production ready server, run ``sudo make serve`` (after you installed ``pip install gunicorn``)
-- Open the url _http://ip:8080_ where _ip_ is the IP for your Raspberry Pi. 
+- Open the url _http://ip:8080_ where _ip_ is the IP for your Raspberry Pi.
 - run ``make switch <switchname>|all 0|1`` from command line or a cron job
 
 
 ## Build a timed switch using cron
-The switches can be changed by using the script tarnow_switch.py <switch> 0|1 
+The switches can be changed by using the script tarnow_switch.py <switch> 0|1
 This is useful to run as timed switch using cron
 Example (the switch 'radio' in defined in config.py:
 
@@ -59,8 +59,8 @@ The format is like ``http://<ip>:8080/<command>/<parameter>``
 
 | Command         | What is does                               | Parameter         | Example                                           |
 |:----------------|:-------------------------------------------|:------------------|:--------------------------------------------------|
-| on              | Enables a switch                           | a switch or _all_ | http://192.168.0.12:8080/on/Radio                 |     
-| off             | Disables a switch                          | a switch or _all_ | http://192.168.0.12:8080/off/all                  | 
+| on              | Enables a switch                           | a switch or _all_ | http://192.168.0.12:8080/on/Radio                 |
+| off             | Disables a switch                          | a switch or _all_ | http://192.168.0.12:8080/off/all                  |
 | createtemporary | Skip next automatic switch execution       | a switch          | http://192.168.0.12:8080/createtemporary/Internet |
 | createpermanent | Skip all automatic switch executions       | a switch          | http://192.168.0.12:8080/createpermanent/TV       |
 | deletetemporary | Don't skip next automatic switch execution | a switch          | http://192.168.0.12:8080/deletetemporary/Internet |
@@ -68,7 +68,7 @@ The format is like ``http://<ip>:8080/<command>/<parameter>``
 
 
 ## Autostart
-To automatically start the server, add the following line to your ``/etc/rc.local``: 
+To automatically start the server, add the following line to your ``/etc/rc.local``:
 ``python /home/pi/tarnow/tarnow.py &`` (or when using gunicorn  ``cd /home/pi/tarnow && sudo gunicorn --bind 0.0.0.0:8080 tarnow:app``)
 
 ## And finally: how it looks like
