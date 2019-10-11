@@ -2,10 +2,10 @@ from flask import Flask, redirect
 from flask import render_template
 from flask_bootstrap import Bootstrap
 
-from switch import *
-from next_execution import NextSwitchExecution
+from tarnow import Switch
+from tarnow.next_execution import NextSwitchExecution
 from crontab import CronTab
-import config
+from tarnow import config
 
 
 app = Flask(__name__)
@@ -86,6 +86,10 @@ def delete_t_skip(switch):
     return homepage()
 
 
-if __name__ == '__main__':
-    enable_debug = True #TODO change back
+def main():
+    enable_debug = True  # TODO change back
     app.run(host='0.0.0.0', port=8080, debug=enable_debug)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,7 +1,7 @@
 __author__ = 'mav'
 
 import unittest
-import next_execution
+from tarnow import next_execution
 import crontab
 from datetime import datetime
 

@@ -4,7 +4,7 @@ import subprocess
 import sys
 import syslog as log
 
-import config
+from . import config
 
 
 class Switch(object):

@@ -3,7 +3,7 @@ import glob
 import unittest
 from mock import patch
 
-from switch import Switch
+from tarnow.switch import Switch
 
 
 class SwitchTest(unittest.TestCase):
@@ -35,14 +35,14 @@ class SwitchTest(unittest.TestCase):
         self.cut.dont_skip_all()
         self.assertFalse(self.cut.is_skip_all())
 
-    @patch('switch.subprocess.call')
+    @patch('subprocess.call')
     def test_toggle(self, mock_subprocess):
         self.cut.toggle(1)
         mock_subprocess.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '1'])
         self.cut.toggle(0)
         mock_subprocess.assert_called_with(['/usr/local/sbin/send433', '11111', '3', '0'])
 
-    @patch('switch.subprocess.call')
+    @patch('subprocess.call')
     def test_toggle_all(self, mock_subprocess):
         Switch.toggle_all(1)
         self.assertEqual(mock_subprocess.call_count, 2)  # 1 switches in the config, one is alwayOn

@@ -1,7 +1,7 @@
 import sys
 import syslog
 
-from switch import Switch
+from tarnow import Switch
 
 
 def toggle(switch_name, status):

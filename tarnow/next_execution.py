@@ -1,4 +1,4 @@
-from switch import Switch
+from .switch import Switch
 from datetime import datetime
 from croniter import croniter
 from crontab import CronTab
